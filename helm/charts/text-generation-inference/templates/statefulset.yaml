@@ -39,11 +39,23 @@ spec:
       volumes:
         - name: storage
           persistentVolumeClaim:
-            claimName: storage
+            claimName: {{ .Release.Name }}-storage
       restartPolicy: Always
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
   volumeClaimTemplates:
     - metadata:
-        name: storage
+        name: {{ .Release.Name }}-storage
       spec:
         accessModes:
           {{- range .Values.persistence.accessModes }}
