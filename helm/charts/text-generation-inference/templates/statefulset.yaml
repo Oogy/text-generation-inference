@@ -17,6 +17,30 @@ spec:
       labels:
         {{- include "text-generation-inference.selectorLabels" . | nindent 8 }}
     spec:
+      initContainers:
+        - name: model-downloader
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          command:
+            - "text-generation-server"
+            - "download-weights"
+          env:
+          {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+          {{- end }}
+            - name: HUGGINGFACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.huggingfaceHubToken.existingSecret }}
+                  name: {{ .Values.huggingfaceHubToken.existingSecret }}
+                  {{- else }}
+                  name: {{ printf "%s-%s" .Release.Name "huggingface-hub-token" }}
+                  {{- end }}
+                  key: huggingface-hub-token
+          volumeMounts:
+            - mountPath: "/data"
+              name: storage
       containers:
         - name: text-generation-inference
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -27,9 +51,6 @@ spec:
             - containerPort: 80
           command:
             - "text-generation-launcher"
-            {{- range .Values.args }}
-            - {{ . | quote }}
-            {{- end }}
           env:
           {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
