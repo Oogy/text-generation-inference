@@ -25,6 +25,9 @@ spec:
             requests:
               cpu: 1
               memory: 24Gi
+            limits:
+              cpu: 1
+              memory: 24Gi
           command:
             - "text-generation-server"
             - "download-weights"
