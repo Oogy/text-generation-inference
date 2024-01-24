@@ -44,7 +44,7 @@ spec:
                   key: huggingface-hub-token
           volumeMounts:
             - mountPath: "/data"
-              name: {{ .Release.Name }}-storage
+              name: storage
       restartPolicy: Always
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -60,7 +60,7 @@ spec:
       {{- end }}
   volumeClaimTemplates:
     - metadata:
-        name: {{ .Release.Name }}-storage
+        name: storage
       spec:
         accessModes:
           {{- range .Values.persistence.accessModes }}
