@@ -33,6 +33,16 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
           {{- end }}
+            - name: HUGGINGFACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.huggigfaceHubToken.existingSecret }}
+                  name: {{ .Values.huggingfaceHubToken.existingSecret }}
+                  {{- else }}
+                  name: {{ printf "%s-%s" .Release.Name "huggingface-hub-token" }}
+                  {{- end }}
+                  key: huggingface-hub-token
+
           volumeMounts:
             - mountPath: "/data"
               name: storage

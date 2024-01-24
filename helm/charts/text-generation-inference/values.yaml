@@ -19,6 +19,9 @@ resources:
   requests:
     nvidia.com/gpu: "1"
 
+huggingfaceHubToken:
+  existingSecret: ""
+
 args:
   []
   # See: https://huggingface.co/docs/text-generation-inference/basic_tutorials/launcher
@@ -31,8 +34,6 @@ args:
 
 env:
   {}
-  # See: https://huggingface.co/settings/tokens
-  # HUGGING_FACE_HUB_TOKEN: xxx
 
 ingress:
   enabled: false
