@@ -24,10 +24,10 @@ spec:
           resources:
             requests:
               cpu: 1
-              memory: 24Gi
+              memory: 48Gi
             limits:
               cpu: 1
-              memory: 24Gi
+              memory: 48Gi
           command:
             - "text-generation-server"
             - "download-weights"
