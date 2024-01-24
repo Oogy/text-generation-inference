@@ -42,14 +42,9 @@ spec:
                   name: {{ printf "%s-%s" .Release.Name "huggingface-hub-token" }}
                   {{- end }}
                   key: huggingface-hub-token
-
           volumeMounts:
             - mountPath: "/data"
-              name: storage
-      volumes:
-        - name: storage
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-storage
+              name: {{ .Release.Name }}-text-generation-inference-storage
       restartPolicy: Always
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -65,7 +60,7 @@ spec:
       {{- end }}
   volumeClaimTemplates:
     - metadata:
-        name: {{ .Release.Name }}-storage
+        name: {{ .Release.Name }}-text-generation-inference-storage
       spec:
         accessModes:
           {{- range .Values.persistence.accessModes }}
