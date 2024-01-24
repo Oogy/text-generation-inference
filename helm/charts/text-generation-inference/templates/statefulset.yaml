@@ -24,6 +24,9 @@ spec:
           command:
             - "text-generation-server"
             - "download-weights"
+            - "$MODEL_ID"
+            - "revision"
+            - "$REVISION"
           env:
           {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
