@@ -36,7 +36,7 @@ spec:
             - name: HUGGINGFACE_HUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  {{- if .Values.huggigfaceHubToken.existingSecret }}
+                  {{- if .Values.huggingfaceHubToken.existingSecret }}
                   name: {{ .Values.huggingfaceHubToken.existingSecret }}
                   {{- else }}
                   name: {{ printf "%s-%s" .Release.Name "huggingface-hub-token" }}
