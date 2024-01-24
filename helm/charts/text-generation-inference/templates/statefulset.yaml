@@ -21,6 +21,10 @@ spec:
         - name: model-downloader
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          resources:
+            requests:
+              cpu: 1
+              memory: 2Gi
           command:
             - "text-generation-server"
             - "download-weights"
